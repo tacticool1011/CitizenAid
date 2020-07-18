@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,9 @@ import com.google.android.material.navigation.NavigationView;
 public class ProfileActivity  extends AppCompatActivity {
 
     DrawerLayout d1;
-    Button finish;
+    Button button;
+    EditText name, type, description;
+    String mName, mType, mDescription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,7 +29,14 @@ public class ProfileActivity  extends AppCompatActivity {
 
         d1 = findViewById(R.id.d1);
 
-        finish = findViewById((R.id.button));
+
+        button = findViewById(R.id.button);
+
+        name = (EditText) findViewById(R.id.institution);
+        type = (EditText) findViewById(R.id.institutionType);
+        description = (EditText) findViewById(R.id.description);
+
+        button = findViewById((R.id.button));
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
 
@@ -49,11 +60,23 @@ public class ProfileActivity  extends AppCompatActivity {
             }
         });
 
-        finish.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mName = name.getText().toString().trim();
+                mType = type.getText().toString().trim();
+                mDescription = description.getText().toString().trim();
+
+                name.setText(mName);
+                name.setText(mType);
+                name.setText(mDescription);
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                
             }
         });
+
+
     }
+
+
 }

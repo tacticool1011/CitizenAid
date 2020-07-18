@@ -1,9 +1,11 @@
 package com.example.citizenaid.Users;
 
-public class Institutions implements User{
+import java.util.ArrayList;
+
+public class Institutions{
     private String name, type, email;
     private int rating, zipcode;
-
+    private ArrayList<Institution> locations = new ArrayList<>();
     public Institutions(String name, String type, String email, int rating, int zipcode){
         this.name = name;
         this.type = type;
@@ -30,5 +32,12 @@ public class Institutions implements User{
 
     public String getType() {
         return type;
+    }
+
+    public void addLocations(Institution i){
+        locations.add(i);
+    }
+    public ArrayList<Institution> getLocations(){
+        return locations;
     }
 }

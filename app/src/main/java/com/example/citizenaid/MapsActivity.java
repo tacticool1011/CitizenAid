@@ -7,7 +7,12 @@ import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.citizenaid.Users.Institution;
+import com.example.citizenaid.Users.Institutions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,10 +23,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private Button addlocation, removelocation;
+    private TextView descrip;
     private GoogleMap mMap;
     private Marker selected;
+    private boolean clicked = false;
     private static LatLng clickPos;
+    //public static Institutions institute;
+    public static boolean addedanything = false;
+    public static  Institutions institute = new Institutions("bob", "farm", "bob@gmail.com", 5, 12345);
     private boolean selectedAnything = false, selectedMarker = false;
     DrawerLayout d1;
     @Override
@@ -57,6 +67,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
+        addlocation = findViewById(R.id.addlocation);
+        descrip = findViewById(R.id.desc);
+        addlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(clicked){
+                    startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
+                    finish();
+                    return;
+                }
+            }
+        });
+
+
+
     }
 
     /**
@@ -73,9 +98,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if(addedanything) {
+            for (Institution i : institute.getLocations()) {
+                LatLng institutePos = i.getPos();
+                Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
+            }
+        }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -87,9 +118,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 clickPos = latLng;
                 selectedAnything = true;
 
-                selected = mMap.addMarker(new MarkerOptions().position(latLng).title("Clicked here!"));
+
+               selected = mMap.addMarker(new MarkerOptions().position(latLng).title(""));
+                clicked = true;
 
             }
+
         });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(final Marker marker) {
+                Institution inst = null;
+                clicked = true;
+                for(Institution i : institute.getLocations()){
+                    if(i.getPos().equals(MapsActivity.getClickPos())){
+                        inst = i;
+                    }
+                }
+
+                if(inst != null){
+                    descrip.setText("Name: " + inst.getName() + "\n\nType: " + inst.getType() + " \n\nDescription: " + inst.getDescription());
+                }
+                removelocation = findViewById(R.id.remove);
+                removelocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        marker.remove();
+                        descrip.setText("Name: \n\nType: \n\nDescription: ");
+                    }
+                });
+                return clicked;
+            }
+        });
+    }
+    public static LatLng getClickPos() {
+        return clickPos;
     }
 }
