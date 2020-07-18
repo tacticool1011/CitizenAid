@@ -30,7 +30,7 @@ public class ProfileActivity  extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 if (id == R.id.home){
 //                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class ));
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class ));
                 }
                 else if (id == R.id.profile){
 //                    Toast.makeText(HomeActivity.this, "Post", Toast.LENGTH_SHORT).show();
