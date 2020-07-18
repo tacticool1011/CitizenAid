@@ -70,7 +70,7 @@ public class ProfileActivity  extends AppCompatActivity {
                 name.setText(mName);
                 name.setText(mType);
                 name.setText(mDescription);
-                //startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 
             }
         });
