@@ -104,7 +104,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
                 if (!mCitizen.isChecked() && !mInstitution.isChecked()){
-                    Toast.makeText(RegistrationActivity.this, "Choose Institution or Citizen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Choose Organization or Citizen", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
