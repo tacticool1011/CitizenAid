@@ -50,12 +50,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mLogin = findViewById(R.id.login);
         mCitizen = findViewById(R.id.citizen);
+      
         mInstitution = findViewById(R.id.institution);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         c_password = findViewById(R.id.c_password);
         mRegister = findViewById(R.id.register);
+
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

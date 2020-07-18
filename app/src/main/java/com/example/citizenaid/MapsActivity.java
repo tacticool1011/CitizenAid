@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,9 +20,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private Button addlocation;
     private GoogleMap mMap;
     private Marker selected;
+    private boolean clicked = false;
     private static LatLng clickPos;
     private boolean selectedAnything = false, selectedMarker = false;
     DrawerLayout d1;
@@ -57,6 +60,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
+        addlocation = findViewById(R.id.addlocation);
+        addlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(clicked){
+                    startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
+                    finish();
+                    return;
+                }
+            }
+        });
+
     }
 
     /**
@@ -87,9 +102,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 clickPos = latLng;
                 selectedAnything = true;
 
-                selected = mMap.addMarker(new MarkerOptions().position(latLng).title("Clicked here!"));
+                selected = mMap.addMarker(new MarkerOptions().position(latLng).title(""));
+
 
             }
+
         });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                clicked = true;
+                return clicked;
+            }
+        });
+
     }
 }
