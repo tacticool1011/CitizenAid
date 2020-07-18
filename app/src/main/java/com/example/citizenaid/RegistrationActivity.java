@@ -21,7 +21,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mLogin = findViewById(R.id.login);
         mCitizen = findViewById(R.id.citizen);
-        mInstitution = findViewById(R.id.institution);
+        mInstitution = findViewById(R.id.Organization);
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
