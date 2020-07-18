@@ -8,7 +8,7 @@
 
     <EditText
 
-        android:id="@+id/answer"
+        android:id="@+id/description"
         android:layout_width="368dp"
         android:layout_height="259dp"
         android:layout_alignParentTop="true"
