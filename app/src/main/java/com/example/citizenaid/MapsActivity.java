@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.citizenaid.Users.Institution;
+import com.example.citizenaid.Users.Institutions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,6 +27,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker selected;
     private boolean clicked = false;
     private static LatLng clickPos;
+    //public static Institutions institute;
+    public static boolean addedanything = false;
+    public static  Institutions institute = new Institutions("bob", "farm", "bob@gmail.com", 5, 12345);
     private boolean selectedAnything = false, selectedMarker = false;
     DrawerLayout d1;
     @Override
@@ -88,10 +93,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if(addedanything) {
+            for (Institution i : institute.getLocations()) {
+                LatLng institutePos = i.getPos();
+                Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
+            }
+        }
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -103,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 selectedAnything = true;
 
                 selected = mMap.addMarker(new MarkerOptions().position(latLng).title(""));
-
+                clicked = true;
 
             }
 
@@ -116,6 +126,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return clicked;
             }
         });
-
+    }
+    public static LatLng getClickPos() {
+        return clickPos;
     }
 }
