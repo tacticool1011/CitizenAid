@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.citizenaid.Users.Institution;
 import com.example.citizenaid.Users.Institutions;
@@ -22,7 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private Button addlocation;
+    private Button addlocation, removelocation;
+    private TextView descrip;
     private GoogleMap mMap;
     private Marker selected;
     private boolean clicked = false;
@@ -66,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         addlocation = findViewById(R.id.addlocation);
+        descrip = findViewById(R.id.desc);
         addlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+
 
     }
 
@@ -102,6 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
             }
         }
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -112,7 +118,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 clickPos = latLng;
                 selectedAnything = true;
 
-                selected = mMap.addMarker(new MarkerOptions().position(latLng).title(""));
+
+               selected = mMap.addMarker(new MarkerOptions().position(latLng).title(""));
                 clicked = true;
 
             }
@@ -121,8 +128,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
+                Institution inst = null;
                 clicked = true;
+                for(Institution i : institute.getLocations()){
+                    if(i.getPos().equals(MapsActivity.getClickPos())){
+                        inst = i;
+                    }
+                }
+
+                if(inst != null){
+                    descrip.setText("Name: " + inst.getName() + "\n\nType: " + inst.getType() + " \n\nDescription: " + inst.getDescription());
+                }
+                removelocation = findViewById(R.id.remove);
+                removelocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        marker.remove();
+                        descrip.setText("Name: \n\nType: \n\nDescription: ");
+                    }
+                });
                 return clicked;
             }
         });

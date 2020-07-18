@@ -17,7 +17,7 @@ import static com.example.citizenaid.MapsActivity.addedanything;
 import static com.example.citizenaid.MapsActivity.institute;
 
 public class InstitutionActivity extends AppCompatActivity {
-    private EditText name, description;
+    private EditText name, description, type;
     private Button confirm;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class InstitutionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_institution);
 
         name = findViewById(R.id.institutionname);
+        type = findViewById(R.id.type);
         description = findViewById(R.id.description);
         confirm = findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +41,7 @@ public class InstitutionActivity extends AppCompatActivity {
     }
     public void createInstituion(){
 
-        Institution created = new Institution(institute , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString());
+        Institution created = new Institution(institute , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString(), type.getText().toString());
         institute.addLocations(created);
         addedanything = true;
     }
