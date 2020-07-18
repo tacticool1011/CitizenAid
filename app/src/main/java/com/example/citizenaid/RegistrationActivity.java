@@ -41,7 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Button mLogin, mRegister;
     RadioButton mCitizen, mInstitution;
     EditText name, email, password, c_password;
-        private static String URL_REGIST = "http://192.168.1.10/messagingApp/register.php";
+        private static String URL_REGIST = "http://16f8aaaf4bdf.ngrok.io/messagingApp/register.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
