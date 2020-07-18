@@ -29,15 +29,14 @@ public class ProfileActivity  extends AppCompatActivity {
 
         d1 = findViewById(R.id.d1);
 
-<<<<<<< HEAD
+
         button = findViewById(R.id.button);
 
         name = (EditText) findViewById(R.id.institution);
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
-=======
-        finish = findViewById((R.id.button));
->>>>>>> 1d1e9fa9e376833015dd3bc2f7c9a2aef9511c38
+
+        button = findViewById((R.id.button));
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
 
