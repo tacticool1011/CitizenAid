@@ -25,7 +25,7 @@ public class ProfileActivity  extends AppCompatActivity {
 
         d1 = findViewById(R.id.d1);
 
-        finish.findViewById((R.id.button));
+        finish = findViewById((R.id.button));
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
 
