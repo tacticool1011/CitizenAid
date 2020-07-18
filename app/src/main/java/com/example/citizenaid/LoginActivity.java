@@ -9,19 +9,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button login;
+    Button mCheat, mRegister;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login = findViewById(R.id.login);
+        mCheat = findViewById(R.id.cheat);
+        mRegister = findViewById(R.id.register);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        mCheat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            }
+        });
+
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
             }
         });
     }
