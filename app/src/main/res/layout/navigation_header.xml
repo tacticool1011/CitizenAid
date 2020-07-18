@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#146FAC"
+    android:background="#6BCB00"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="10dp">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="74dp"
-        android:layout_gravity="left"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/iconperson"
-        android:paddingLeft="20dp"
-        android:paddingTop="13dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/whiteperson"
+            android:paddingLeft="20dp"
+            android:paddingTop="50dp" />
+
+        <ImageView
+            android:id="@+id/imageView15"
+            android:layout_width="320dp"
+            android:layout_height="94dp"
+            app:srcCompat="@drawable/whitecitizenaid" />
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
+        android:layout_width="272dp"
+        android:layout_height="66dp"
         android:layout_gravity="left"
+        android:fontFamily="@font/bebasneue_bold"
         android:text="WELCOME USER"
         android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+        android:textSize="40dp" />
 
 </LinearLayout>
