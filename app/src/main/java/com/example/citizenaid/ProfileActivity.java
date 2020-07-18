@@ -18,7 +18,7 @@ public class ProfileActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivty_profile);
+        setContentView(R.layout.activity_profile);
 
         d1 = findViewById(R.id.d1);
 
