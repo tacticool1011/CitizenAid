@@ -86,6 +86,7 @@
 
     <EditText
         android:id="@+id/password"
+        android:paddingLeft="10dp"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/longrectangle"
@@ -101,6 +102,7 @@
 
     <EditText
         android:id="@+id/c_password"
+        android:paddingLeft="10dp"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/longrectangle"
