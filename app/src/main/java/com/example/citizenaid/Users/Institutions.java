@@ -1,6 +1,6 @@
 package com.example.citizenaid.Users;
 
-public class Institutions {
+public class Institutions implements User{
     private String name, type, email;
     private int rating, zipcode;
 
