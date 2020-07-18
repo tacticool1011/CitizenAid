@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),MapsActivity.class));
                 finish();
+                return;
             }
         });
 
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                finish();
+                return;
             }
         });
     }
