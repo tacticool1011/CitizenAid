@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ButtonPress" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Chess" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/CouchPotato" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GeoTree" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MyCouncilApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PopUp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/QuizYou" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/council/MyCouncilApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/hello-world" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ryanPractice" vcs="Git" />
+  </component>
+</project>
