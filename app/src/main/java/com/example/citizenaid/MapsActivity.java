@@ -1,8 +1,12 @@
 package com.example.citizenaid;
 
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.navigation.NavigationView;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -18,6 +23,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker selected;
     private static LatLng clickPos;
     private boolean selectedAnything = false, selectedMarker = false;
+    DrawerLayout d1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        d1 = findViewById(R.id.d1);
+
+        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if (id == R.id.home){
+//                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class ));
+                }
+                else if (id == R.id.profile){
+//                    Toast.makeText(HomeActivity.this, "Post", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class ));
+                }
+                else if (id == R.id.logout) {
+//                    Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+                return true;
+            }
+        });
     }
 
     /**
