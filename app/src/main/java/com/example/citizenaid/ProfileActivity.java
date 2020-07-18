@@ -11,14 +11,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class HomeActivity extends AppCompatActivity {
+public class ProfileActivity  extends AppCompatActivity {
 
     DrawerLayout d1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.acitivty_profile);
 
         d1 = findViewById(R.id.d1);
 
@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
-                    return true;
+                return true;
             }
         });
     }
