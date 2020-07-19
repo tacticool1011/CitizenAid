@@ -2,6 +2,7 @@ package com.example.citizenaid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,10 @@ public class ProfileActivity  extends AppCompatActivity {
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
 
-        button = findViewById((R.id.confirm));
+        button = findViewById((R.id.button));
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.myLocation).setVisible(false);
+
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
 

@@ -8,6 +8,7 @@
     <item
         android:id="@+id/myLocation"
         android:title="My Location" />
+
     <item
         android:id="@+id/profile"
         android:title="My Profile"></item>
