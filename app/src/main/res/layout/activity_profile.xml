@@ -12,12 +12,11 @@
     android:layout_height="match_parent">
 
 
-
     <EditText
 
         android:id="@+id/description"
         android:layout_width="320dp"
-        android:layout_height="160dp"
+        android:layout_height="145dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -26,7 +25,7 @@
         android:ems="10"
         android:gravity="start"
         android:hint="Description"
-        android:inputType="textMultiLine|textPersonName"
+        android:inputType="textMultiLine"
         android:padding="10dp"
         android:scrollHorizontally="false"
         android:textAlignment="textStart"
@@ -36,9 +35,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.795" />
-
-
+        app:layout_constraintVertical_bias="0.817" />
 
     <EditText
         android:id="@+id/institutionName"
@@ -46,17 +43,18 @@
         android:layout_height="50dp"
         android:background="@drawable/longrectangle"
         android:ems="10"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
         android:gravity="left"
         android:hint="Institution Name"
         android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#707070"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.474" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <Button
         android:id="@+id/confirm"
@@ -72,8 +70,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.958" />
-
+        app:layout_constraintVertical_bias="0.989" />
 
     <EditText
         android:id="@+id/institutionType"
@@ -86,20 +83,21 @@
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
+        android:textColor="#707070"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.569" />
+        app:layout_constraintVertical_bias="0.593" />
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="413dp"
-        android:layout_height="213dp"
+        android:layout_width="603dp"
+        android:layout_height="224dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -125,7 +123,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343"
+        app:layout_constraintVertical_bias="0.386"
         app:srcCompat="@drawable/editprofile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
