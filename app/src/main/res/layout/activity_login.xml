@@ -116,9 +116,10 @@
 
     <Button
         android:id="@+id/register"
-        android:layout_width="170dp"
+        android:layout_width="140dp"
         android:layout_height="30dp"
         android:background="@drawable/registerhere"
+        android:fontFamily="@font/bebas_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
