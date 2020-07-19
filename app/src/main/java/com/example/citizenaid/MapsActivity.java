@@ -62,6 +62,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -122,6 +123,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String userr;
     DrawerLayout d1;
     private static String URL_ADDCOOR = LoginActivity.ngrokID+"/userCoordinates/addcoordinates.php";
+    private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
+
+    String resp;
+    ArrayList<String> coordinatess = new ArrayList<>();
+
     private int bitmapWidth = 100, bitmapHeight = 100;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -132,15 +138,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(37.775592, -122.433313 ), "We provide food for the San Francisco, California area and provide a wide variety of extravagant cuisine" , "Momma's Food" , "Soup Kitchen"));
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(40.644315, -73.957997) , "We provide food for the New York City, New York area and provide a wide variety of extravagant cuisine" , "Taste From Home" , "Soup Kitchen"));
 //        housing.addLocations(new Institution(housing, new LatLng(47.580100, -122.329141) , "We provide affordable housing units for the Seattle, Washington area" , "Affordable Housing First" , "Affordable Housing"));
 //        housing.addLocations(new Institution(housing, new LatLng(30.259667, -97.746062), "We provide affordable housing units for the Austin, Texas area" , "Texas Housing" , "Affordable Housing"));
 //        donation.addLocations(new Institution(donation, new LatLng(25.773600, -80.214817) , "We provide previously owned items ranging from toys to clothes for the financially unstable people in the Miami, Florida area" , "GoodWish" , "Donation"));
 //        donation.addLocations(new Institution(donation, new LatLng(33.446787, -112.077546) , "We provide previously owned items ranging from toys to clothes for the financially unstable people in the Phoenix, Arizona area" , "CitizenLove" , "Donation"));
+
+
+        getCoordinates(); //method to get coordinates
+
+
+
         BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.institution_icon);
         Bitmap b = bitmap.getBitmap();
         institution_icon = Bitmap.createScaledBitmap(b, bitmapWidth, bitmapHeight, false);
+
         // Current Location Stuff
          supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                .findFragmentById(R.id.map);
@@ -496,6 +510,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return clickPos;
     }
 
+    private void getCoordinates(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETCOOR,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            System.out.println("CONNECTED");
+                            Log.e("anyText",response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONArray jsonArray = jsonObject.optJSONArray("getcoor");
+
+                            if (success.equals("1")) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.optJSONObject(i);
+                                    String temp = object.getString("coordinate").trim();
+                                    coordinatess.add(temp);
+                                    //temp = a single coordinate
+                                    //pls add to a ArrayList <String>
+                                    System.out.println("co " + temp);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            System.out.println(e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(DetailsActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                        System.out.println(error.toString());
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
 
 }
