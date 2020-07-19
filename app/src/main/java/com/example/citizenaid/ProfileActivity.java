@@ -39,8 +39,13 @@ public class ProfileActivity  extends AppCompatActivity {
     DrawerLayout d1;
     Button button;
     TextView name2, type2, description2;
-    public static String name1 = "", type1 = "", description1 = "";
+
+    public static String name1, type1, description1;
+
+
+  
     EditText nam, type, desc;
+
     String mName, mType, mDescription;
     Citizen citizen = LoginActivity.getCitizen();
     Institutions institutions = LoginActivity.getInstitutions();
@@ -74,7 +79,13 @@ public class ProfileActivity  extends AppCompatActivity {
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.getMenu().findItem(R.id.myLocation).setVisible(false);
-
+        if(!(citizen.getEmail().equals("notcitizen"))){
+            Menu nav_Menu = nav_view.getMenu();
+            nav_Menu.findItem(R.id.profile).setVisible(false);
+        } else {
+            Menu nav_Menu = nav_view.getMenu();
+            nav_Menu.findItem(R.id.profile).setVisible(true);
+        }
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -138,18 +149,18 @@ public class ProfileActivity  extends AppCompatActivity {
 //                                Toast.makeText(ainActivity.this, "Register Success", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                Toast.makeText(ProfileActivity.this, "not good", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(ProfileActivity.this, "not good", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(ProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ProfileActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 })
         {

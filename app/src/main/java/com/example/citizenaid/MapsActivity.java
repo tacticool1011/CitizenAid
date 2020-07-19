@@ -10,12 +10,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -80,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Marker selected;
     private boolean clicked = false;
-
+    private Bitmap institution_icon;
     public static String desc1;
 
     private static LatLng clickPos;
@@ -124,6 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String resp;
     ArrayList<String> coordinatess = new ArrayList<>();
 
+    private int bitmapWidth = 100, bitmapHeight = 100;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -133,7 +137,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         getCoordinates(); //method to get coordinates
+
+
+        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(R.drawable.institution_icon);
+        Bitmap b = bitmap.getBitmap();
+        institution_icon = Bitmap.createScaledBitmap(b, bitmapWidth, bitmapHeight, false);
+
         // Current Location Stuff
          supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                .findFragmentById(R.id.map);
@@ -170,7 +181,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         d1 = findViewById(R.id.d1);
 
         final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-
+        if(!(citizen.getEmail().equals("notcitizen"))){
+            Menu nav_Menu = nav_view.getMenu();
+            nav_Menu.findItem(R.id.profile).setVisible(false);
+        } else {
+            Menu nav_Menu = nav_view.getMenu();
+            nav_Menu.findItem(R.id.profile).setVisible(true);
+        }
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -190,7 +207,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
+
         addlocation = findViewById(R.id.addlocation);
+        if(!(citizen.getEmail().equals("notcitizen"))){
+            addlocation.setVisibility(View.GONE);
+        } else {
+            addlocation.setVisibility(View.VISIBLE);
+        }
         addlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -380,7 +403,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        removelocation = findViewById(R.id.remove);
+        if(!(citizen.getEmail().equals("notcitizen"))){
+            removelocation.setVisibility(View.GONE);
+        } else {
+            removelocation.setVisibility(View.VISIBLE);
+        }
         mMap = googleMap;
         init();
         // Add a marker in Sydney and move the camera
@@ -390,7 +418,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(addedanything) {
             for (Institution i : institutions.getLocations()) {
                 LatLng institutePos = i.getPos();
-                Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
+                Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute").icon(BitmapDescriptorFactory.fromBitmap(institution_icon)));
                 //get coordinates from data
             }
         }
@@ -431,24 +459,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         inst = i;
                     }
                 }
-                if(inst != null){
-                    name1 = inst.getName();
-                    description1 = inst.getDescription();
-                    type1 = inst.getType();
-                    toDelete.add(marker);
-                }
+
                 details = findViewById(R.id.details);
                 details.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //marker.getPostition()
-
-                        startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
-                        finish();
-                        return;
+                        if(description1 == null || type1 == null){
+                            Toast.makeText(MapsActivity.this, "Details not available", Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                            finish();
+                            return;
+                        }
                     }
                 });
-                removelocation = findViewById(R.id.remove);
+
+
                 removelocation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
