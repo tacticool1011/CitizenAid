@@ -94,6 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //checks if input is valid
                 if (!password.getText().toString().trim().equals(c_password.getText().toString().trim())){
                     password.setError("Passwords do not match");
                     c_password.setError("Passwords do not match");
@@ -115,7 +116,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast.makeText(RegistrationActivity.this, "Choose Organization or Citizen", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //creates new row in database
                 Regist();
             }
         });

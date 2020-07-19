@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mLogin = findViewById(R.id.login);
 
+        //to register page
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        //runs php code and if successful, log user in
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,11 +81,13 @@ public class LoginActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
+                                    //looks in database and i make strings storing the values that we get
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String isCitizen = object.getString("isCitizen").trim();
                                     int ID = object.getInt("id");
 
+                                    //make instances of Citizen and Institutions, the one that is not would be set to random string
                                     if (isCitizen.equals("true")){
                                         citizen = new Citizen (name, email);
                                         institutions = new Institutions("notinstitutions", "notinstitutions");
