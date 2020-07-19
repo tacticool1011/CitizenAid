@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker selected;
     private boolean clicked = false;
     private static LatLng clickPos;
-    public static Institutions institute;
+    //public static Institutions institute;
     public static boolean addedanything = false;
     private static final String TAG = "MapActivity";
     private boolean autoclick = false;
@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //public static  Institutions institute = new Institutions("bob", "farm", "bob@gmail.com", 5, 12345);
     private boolean selectedAnything = false, selectedMarker = false;
     private Citizen citizen = LoginActivity.getCitizen();
-    private Institutions institutions = LoginActivity.getInstitutions();
+    private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
     DrawerLayout d1;
     @Override
@@ -225,7 +225,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         if(addedanything) {
-            for (Institution i : institute.getLocations()) {
+            for (Institution i : institutions.getLocations()) {
                 LatLng institutePos = i.getPos();
                 Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
             }
@@ -260,7 +260,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     marker.remove();
                     autoclick = false;
                 }
-                for(Institution i : institute.getLocations()){
+                for(Institution i : institutions.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
                     }

@@ -13,8 +13,9 @@ import com.example.citizenaid.Users.Institution;
 import com.example.citizenaid.Users.Institutions;
 
 //import static com.example.citizenaid.MapsActivity.institute;
+import static com.example.citizenaid.LoginActivity.institutions;
 import static com.example.citizenaid.MapsActivity.addedanything;
-import static com.example.citizenaid.MapsActivity.institute;
+//import static com.example.citizenaid.MapsActivity.institute;
 
 public class InstitutionActivity extends AppCompatActivity {
     private EditText name, description, type;
@@ -39,8 +40,8 @@ public class InstitutionActivity extends AppCompatActivity {
         });
     }
     public void createInstituion(){
-        Institution created = new Institution(institute , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString(), type.getText().toString());
-        institute.addLocations(created);
+        Institution created = new Institution(institutions , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString(), type.getText().toString());
+        institutions.addLocations(created);
         addedanything = true;
     }
 }
