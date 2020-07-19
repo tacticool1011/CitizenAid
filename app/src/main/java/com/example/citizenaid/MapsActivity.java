@@ -152,6 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getCoordinates();
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
             }
         });
