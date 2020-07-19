@@ -246,7 +246,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(Institution i : institute.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
-
                     }
                 }
 
