@@ -36,7 +36,8 @@ import static com.example.citizenaid.MapsActivity.toDelete;
 import static com.example.citizenaid.MapsActivity.marker1;
 import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
-    private TextView nam, desc, type, image;
+    private TextView nam, desc, type;
+    private ImageView image;
     private static String URL_GETEMAIL = LoginActivity.ngrokID+"/userCoordinates/getemail.php";
     private static String URL_GETPROFILE = LoginActivity.ngrokID+"/citizenAid/getprofile.php";
     LatLng latLng = MapsActivity.getClickPos();
@@ -52,11 +53,28 @@ public class DetailsActivity extends AppCompatActivity {
         nam = findViewById(R.id.institutionName);
         desc = findViewById(R.id.institutionDetails);
         type = findViewById(R.id.institutionType);
-        image = findViewById(R.id.textView2);
+        image = findViewById(R.id.pfp);
         back = findViewById(R.id.detailsBackButton);
         System.out.println(MapsActivity.getClickPos());
         getEmail(MapsActivity.getClickPos().toString());
-
+        int randomP = (int)(Math.random() * 8) + 1;
+        if(randomP == 1){
+            image.setImageResource(R.drawable.affordablehousing);
+        } else if(randomP == 2){
+            image.setImageResource(R.drawable.affordablehousing2);
+        } else if(randomP == 3){
+            image.setImageResource(R.drawable.soupkitchen);
+        } else if(randomP == 4){
+            image.setImageResource(R.drawable.soupkitchen2);
+        } else if(randomP == 5){
+            image.setImageResource(R.drawable.soupkitchen2);
+        } else if(randomP == 6){
+            image.setImageResource(R.drawable.foodbank);
+        } else if(randomP == 7){
+            image.setImageResource(R.drawable.foodbank2);
+        } else {
+            image.setImageResource(R.drawable.foodbank3);
+        }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
