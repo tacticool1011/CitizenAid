@@ -23,11 +23,6 @@
             android:paddingLeft="20dp"
             android:paddingTop="50dp" />
 
-        <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="320dp"
-            android:layout_height="94dp"
-            app:srcCompat="@drawable/whitecitizenaid" />
     </LinearLayout>
 
     <TextView
