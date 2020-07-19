@@ -6,75 +6,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="115dp"
-        android:layout_height="36dp"
-        android:text="details activity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.55"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
-
     <Button
         android:id="@+id/detailsBackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:background="@drawable/loginrectangle"
+        android:fontFamily="@font/bebas_bold"
         android:text="Back"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintVertical_bias="0.976" />
 
     <ImageView
         android:id="@+id/locationImageView"
-        android:layout_width="260dp"
-        android:layout_height="230dp"
+        android:layout_width="367dp"
+        android:layout_height="232dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526"
+        app:layout_constraintVertical_bias="0.44"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/institutionName"
-        android:layout_width="55dp"
-        android:layout_height="28dp"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.299" />
 
     <TextView
         android:id="@+id/institutionType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/bebas_bold"
         android:text="type of institution"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintVertical_bias="0.66" />
 
     <TextView
         android:id="@+id/institutionDetails"
-        android:layout_width="284dp"
-        android:layout_height="136dp"
+        android:layout_width="347dp"
+        android:layout_height="139dp"
+        android:background="@drawable/bigrectangle"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:text="fdsafdsaghtrehteahrfsda"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.401"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
+        app:layout_constraintVertical_bias="0.863" />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/greenheader" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView17"
+        app:layout_constraintVertical_bias="0.037"
+        app:srcCompat="@drawable/whitecitizenaid" />
+
+    <TextView
+        android:id="@+id/institutionName"
+        android:layout_width="400dp"
+        android:layout_height="45dp"
+        android:fontFamily="@font/bebas_regular"
+        android:gravity="center"
+        android:text="Institution Name"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.211" />
 </androidx.constraintlayout.widget.ConstraintLayout>
