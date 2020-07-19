@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     public  static Citizen citizen;
     public static Institutions institutions;
     EditText mEmail, mPassword;
-    private static String URL_LOGIN = "http://16f8aaaf4bdf.ngrok.io/citizenAid/login.php";
+    private static String URL_LOGIN = "http://2fe49e011188.ngrok.io/citizenAid/login.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

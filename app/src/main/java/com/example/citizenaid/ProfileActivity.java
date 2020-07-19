@@ -14,7 +14,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.citizenaid.Users.Citizen;
+import com.example.citizenaid.Users.Institutions;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity  extends AppCompatActivity {
 
@@ -22,6 +37,10 @@ public class ProfileActivity  extends AppCompatActivity {
     Button button;
     EditText name, type, description;
     String mName, mType, mDescription;
+    Citizen citizen = LoginActivity.getCitizen();
+    Institutions institutions = LoginActivity.getInstitutions();
+    String userr;
+    private static String URL_PROFILE = "http://2fe49e011188.ngrok.io/citizenAid/profile.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +56,11 @@ public class ProfileActivity  extends AppCompatActivity {
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
 
+        if (citizen.getEmail().equals("notcitizen")){
+            userr = "institutions";
+        } else {
+            userr = "citizen";
+        }
 
 
 
@@ -70,15 +94,59 @@ public class ProfileActivity  extends AppCompatActivity {
                 mType = type.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
 
-                name.setText(mName);
-                name.setText(mType);
-                name.setText(mDescription);
-                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+
+                updateProfile(institutions.getEmail(), mType, mDescription);
+//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 
             }
         });
 
 
+    }
+
+    private void updateProfile(final String email, final String type, final String description){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_PROFILE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+
+                            if (success.equals("1")){
+//                                Toast.makeText(ainActivity.this, "Register Success", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(ProfileActivity.this, "not good", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(ProfileActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ProfileActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                params.put("type", type);
+                params.put("description", description);
+                System.out.println(description);
+                return params;
+
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 
