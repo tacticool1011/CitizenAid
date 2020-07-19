@@ -107,8 +107,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         // Current Location Stuff
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+         supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+               .findFragmentById(R.id.map);
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
@@ -205,7 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     .title("Current Location")
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                             //Zoom map
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
                             //Add marker on map
                             googleMap.addMarker(options);
                         }
