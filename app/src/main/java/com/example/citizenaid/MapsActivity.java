@@ -77,6 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     //public static  Institutions institute = new Institutions("bob", "farm", "bob@gmail.com", 5, 12345);
     private boolean selectedAnything = false, selectedMarker = false;
+    //only one of these will be legit so you always have to check.
     private Citizen citizen = LoginActivity.getCitizen();
     private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
@@ -90,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        //checks if its a citizen of organization
         if (citizen.getEmail().equals("notcitizen")){
             userr = "institutions";
             System.out.println(institutions.getEmail());
@@ -267,6 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
 
+
                 if(inst != null){
                     startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
                     name1 = inst.getName();
@@ -280,6 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         marker.remove();
                     }
                 });
+
                 return clicked;
             }
         });
