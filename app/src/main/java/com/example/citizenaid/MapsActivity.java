@@ -42,6 +42,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     private Button addlocation, removelocation;
     private TextView descrip;
+    private Institution institution;
     private GoogleMap mMap;
     private Marker selected;
     private boolean clicked = false;
@@ -49,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //public static Institutions institute;
     public static boolean addedanything = false;
     private static final String TAG = "MapActivity";
-
+    private boolean autoclick = false;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -184,6 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
+        autoclick = true;
         mMap.addMarker(options).showInfoWindow();
     }
 
@@ -215,6 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+
                 if(selected != null){
                     selected.remove();
                 }
@@ -231,13 +234,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            private boolean doit = false;
             @Override
             public boolean onMarkerClick(final Marker marker) {
                 Institution inst = null;
                 clicked = true;
+                if(autoclick){
+                    marker.remove();
+                    autoclick = false;
+                }
                 for(Institution i : institute.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
+
                     }
                 }
 
