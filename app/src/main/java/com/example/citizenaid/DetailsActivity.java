@@ -25,11 +25,12 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import static com.example.citizenaid.ProfileActivity.description1;
+import static com.example.citizenaid.ProfileActivity.name1;
+import static com.example.citizenaid.ProfileActivity.type1;
 
-import static com.example.citizenaid.MapsActivity.name1;
-import static com.example.citizenaid.MapsActivity.desc1;
 import static com.example.citizenaid.MapsActivity.toDelete;
-import static com.example.citizenaid.MapsActivity.type1;
+
 import static com.example.citizenaid.MapsActivity.marker1;
 import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
@@ -60,7 +61,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         name.setText(name1);
-        desc.setText(desc1);
+        desc.setText(description1);
         type.setText(type1);
 
     }
