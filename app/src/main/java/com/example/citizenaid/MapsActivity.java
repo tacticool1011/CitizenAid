@@ -331,6 +331,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println("i: " + i);
                 LatLng institutePos = i.getPos();
                 Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
+                //get coordinates from data
             }
         }
 
@@ -380,6 +381,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 details.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //marker.getPostition()
 
                         startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
                         finish();
