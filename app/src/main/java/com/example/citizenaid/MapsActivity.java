@@ -40,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -52,8 +53,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.citizenaid.DetailsActivity.removed;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
-    private Button addlocation, removelocation;
+    private Button addlocation, removelocation, details;
     private Institution institution;
     private GoogleMap mMap;
     private Marker selected;
@@ -66,6 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static boolean addedanything = false;
     private static final String TAG = "MapActivity";
     private boolean autoclick = false;
+    public static boolean notNull = false;
+    public static List<Marker> toDelete = new ArrayList<>();
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -81,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //widgets
     private AutoCompleteTextView mSearchText;
     private ImageView mGps;
-
+    public static Marker marker1;
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -105,9 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
         // Current Location Stuff
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+         supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+               .findFragmentById(R.id.map);
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
@@ -121,6 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(MapsActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+
 
         //checks if its a citizen of organization
         if (citizen.getEmail().equals("notcitizen")) {
@@ -201,9 +208,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     ,location.getLongitude());
                             //Create marker options
                             MarkerOptions options = new MarkerOptions().position(latLng)
-                                    .title("Current Location");
+                                    .title("Current Location")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                             //Zoom map
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
                             //Add marker on map
                             googleMap.addMarker(options);
                         }
@@ -297,6 +305,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -334,8 +343,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             private boolean doit = false;
+
             @Override
-            public boolean onMarkerClick(final Marker marker) {
+            public boolean onMarkerClick(final  Marker marker) {
                 Institution inst = null;
                 clicked = true;
                 if(autoclick){
@@ -345,21 +355,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(Institution i : institutions.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
+
                     }
                 }
 
 
                 if(inst != null){
-                    startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
                     name1 = inst.getName();
                     desc1 = inst.getDescription();
                     type1 = inst.getType();
+                    toDelete.add(marker);
                 }
+                details = findViewById(R.id.details);
+                details.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                        finish();
+                        return;
+                    }
+                });
                 removelocation = findViewById(R.id.remove);
                 removelocation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         marker.remove();
+                        for (Institution i : institutions.getLocations()) {
+                            if(marker.getPosition().equals(i.getPos())){
+                                institutions.getLocations().remove(i);
+                            }
+                        }
+
                     }
                 });
 
