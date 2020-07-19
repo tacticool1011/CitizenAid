@@ -46,7 +46,6 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     private Button addlocation, removelocation;
-    private TextView descrip;
     private Institution institution;
     private GoogleMap mMap;
     private Marker selected;
@@ -128,7 +127,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         addlocation = findViewById(R.id.addlocation);
-        descrip = findViewById(R.id.desc);
         addlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,17 +266,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
 
-                if(inst != null){
-                    descrip.setText("Name: " + inst.getName() + "\n\nType: " + inst.getType() + " \n\nDescription: " + inst.getDescription());
-                }
-                removelocation = findViewById(R.id.remove);
-                removelocation.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        marker.remove();
-                        descrip.setText("Name: \n\nType: \n\nDescription: ");
-                    }
-                });
                 return clicked;
             }
         });
