@@ -2,6 +2,7 @@ package com.example.citizenaid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,8 +37,11 @@ import static com.example.citizenaid.MapsActivity.marker1;
 import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
     private TextView name, desc, type, image;
-
-    private static String URL_GETPROFILE = "http://2fe49e011188.ngrok.io/citizenAid/getprofile.php";
+    Button press;
+    private static String URL_GETPROFILE = "http://2fe49e011188.ngrok.io/userCoordinates/getemail.php";
+    LatLng latLng = MapsActivity.getClickPos();
+    String coord = latLng.toString();
+    String email;
 
     private Button back, removelocation;
     public static boolean removed = false;
@@ -50,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
         type = findViewById(R.id.institutionType);
         image = findViewById(R.id.textView2);
         back = findViewById(R.id.detailsBackButton);
+        press = findViewById(R.id.pressbutton);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,24 +70,34 @@ public class DetailsActivity extends AppCompatActivity {
         desc.setText(description1);
         type.setText(type1);
 
+        press.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getEmail(MapsActivity.getClickPos().toString());
+            }
+        });
+
     }
 
-    private void getProfile(final String email){
+    private void getEmail(final String coordinate){
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETPROFILE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            System.out.println("CONNECTED");
+                            Log.e("anyText",response);
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
-                            JSONArray jsonArray = jsonObject.optJSONArray("gettext");
+                            JSONArray jsonArray = jsonObject.optJSONArray("getemail");
 
                             if (success.equals("1")) {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.optJSONObject(i);
-                                    String temp  = object.getString("textmessage").trim();
-//                                    user.addText(temp);
+                                    String gotEmail  = object.getString("email").trim();
+                                    email = gotEmail;
+                                    System.out.println(email);
                                 }
                             }
                         } catch (JSONException e) {
@@ -102,7 +118,8 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email);
+                params.put("coordinate", coordinate);
+                System.out.println(coordinate);
                 return params;
             }
         };
