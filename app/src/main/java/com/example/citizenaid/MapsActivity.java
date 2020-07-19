@@ -26,6 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.citizenaid.Users.Citizen;
 import com.example.citizenaid.Users.Institution;
 import com.example.citizenaid.Users.Institutions;
@@ -52,9 +59,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.citizenaid.DetailsActivity.removed;
 import static com.example.citizenaid.LoginActivity.institutions;
@@ -105,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
     DrawerLayout d1;
+    private static String URL_ADDCOOR = "http://2fe49e011188.ngrok.io/userCoordinates/addcoordinates.php";
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -192,7 +205,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Institution created = new Institution(institutions , MapsActivity.getClickPos(), description1, name1, type1);
         institutions.addLocations(created);
         addedanything = true;
+        addCoordinates();
     }
+
+    private void addCoordinates(){
+
+        final String email;
+        if  (institutions.getEmail().equals("notinstitutions")){
+             email = citizen.getEmail();
+        } else {
+            email = institutions.getEmail();
+        }
+        final String coordinate = MapsActivity.getClickPos().toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADDCOOR,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+                            if (success.equals("1")){
+                                Toast.makeText(MapsActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(MapsActivity.this, "Register Error" + e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MapsActivity.this, "Register Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map <String, String> params = new HashMap<>();
+                params.put("email", email);
+                params.put("coordinate", coordinate);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
     public void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
