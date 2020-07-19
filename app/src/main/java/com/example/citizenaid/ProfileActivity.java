@@ -37,14 +37,13 @@ public class ProfileActivity  extends AppCompatActivity {
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
 
-        button = findViewById((R.id.button));
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().findItem(R.id.myLocation).setVisible(false);
+
 
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.getMenu().findItem(R.id.myLocation).setVisible(false);
 
-        /*nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
@@ -62,7 +61,7 @@ public class ProfileActivity  extends AppCompatActivity {
                 }
                 return true;
             }
-        });*/
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
