@@ -12,10 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.example.citizenaid.MapsActivity.name1;
 import static com.example.citizenaid.MapsActivity.desc1;
+import static com.example.citizenaid.MapsActivity.toDelete;
 import static com.example.citizenaid.MapsActivity.type1;
+import static com.example.citizenaid.MapsActivity.marker1;
+import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
     private TextView name, desc, type, image;
-    private Button back;
+    private Button back, removelocation;
+    public static boolean removed = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
                 return;
             }
         });
+
         name.setText(name1);
         desc.setText(desc1);
         type.setText(type1);

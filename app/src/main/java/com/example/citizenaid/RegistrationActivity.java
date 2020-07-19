@@ -49,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Button mLogin, mRegister;
     RadioButton mCitizen, mInstitution;
     EditText name, email, password, c_password;
-        private static String URL_REGIST = "http://16f8aaaf4bdf.ngrok.io/citizenAid/register.php";
+        private static String URL_REGIST = "http://2fe49e011188.ngrok.io/citizenAid/register.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
