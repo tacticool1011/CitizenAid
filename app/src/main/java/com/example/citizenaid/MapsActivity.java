@@ -129,12 +129,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
 
     String resp;
-    SwipeRefreshLayout swiper_no_swiping;
+//    SwipeRefreshLayout swiper_no_swiping;
     List<String> loc = new ArrayList<>();
     ArrayList<String> coordinatess = new ArrayList<>();
     private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
 
     private boolean hasStarted = false;
+    Button refresh;
     private int bitmapWidth = 100, bitmapHeight = 100;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -145,16 +146,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        swiper_no_swiping = findViewById(R.id.swipethismuthafucka);
+//        swiper_no_swiping = findViewById(R.id.swipethismuthafucka);
+        refresh = findViewById(R.id.refresh);
 
-
-        swiper_no_swiping.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                getCoordinates();
+            public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
             }
         });
+
+
+//        swiper_no_swiping.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getCoordinates();
+//                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+//            }
+//        });
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(37.775592, -122.433313 ), "We provide food for the San Francisco, California area and provide a wide variety of extravagant cuisine" , "Momma's Food" , "Soup Kitchen"));
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(40.644315, -73.957997) , "We provide food for the New York City, New York area and provide a wide variety of extravagant cuisine" , "Taste From Home" , "Soup Kitchen"));
 //        housing.addLocations(new Institution(housing, new LatLng(47.580100, -122.329141) , "We provide affordable housing units for the Seattle, Washington area" , "Affordable Housing First" , "Affordable Housing"));
