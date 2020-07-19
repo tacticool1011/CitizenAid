@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.content.Intent;
@@ -128,6 +129,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
 
     String resp;
+    SwipeRefreshLayout swiper_no_swiping;
+    List<String> loc = new ArrayList<>();
+    ArrayList<String> coordinatess = new ArrayList<>();
+    private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
 
     private boolean hasStarted = false;
     private int bitmapWidth = 100, bitmapHeight = 100;
@@ -140,7 +145,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        swiper_no_swiping = findViewById(R.id.swipethismuthafucka);
 
+
+        swiper_no_swiping.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getCoordinates();
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+            }
+        });
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(37.775592, -122.433313 ), "We provide food for the San Francisco, California area and provide a wide variety of extravagant cuisine" , "Momma's Food" , "Soup Kitchen"));
 //        soupKitchen.addLocations(new Institution(soupKitchen, new LatLng(40.644315, -73.957997) , "We provide food for the New York City, New York area and provide a wide variety of extravagant cuisine" , "Taste From Home" , "Soup Kitchen"));
 //        housing.addLocations(new Institution(housing, new LatLng(47.580100, -122.329141) , "We provide affordable housing units for the Seattle, Washington area" , "Affordable Housing First" , "Affordable Housing"));
@@ -246,7 +260,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addedanything = true;
         addCoordinates(institutions.getEmail(), MapsActivity.getClickPos().toString());
     }
+    private void getCoordinates(){
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETCOOR,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            System.out.println("CONNECTED");
+                            Log.e("anyText",response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONArray jsonArray = jsonObject.optJSONArray("getcoor");
+
+                            if (success.equals("1")) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.optJSONObject(i);
+                                    String temp = object.getString("coordinate").trim();
+                                    coordinatess.add(temp);
+                                    //temp = a single coordinate
+                                    //pls add to a ArrayList <String>
+                                    loc.add(temp);
+                                    for(String s : loc){
+                                        int start = s.indexOf('(');
+                                        int end = s.indexOf(')');
+                                        String temporary =  s.substring(start + 1, end);
+                                        int comma = temporary.indexOf(',');
+                                        String tempLat = temporary.substring(0, comma);
+                                        String tempLng = temporary.substring(comma + 1, temporary.length());
+                                        double lat = Double.valueOf(tempLat);
+                                        double lng = Double.valueOf(tempLng);
+                                        locCor.add(new LatLng(lat, lng));
+
+                                        System.out.println(lat + " " + lng);
+                                    }
+                                    //System.out.println("loc: " + loc.size());
+                                    System.out.println("co " + temp);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            System.out.println(e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(DetailsActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                        System.out.println(error.toString());
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
     private void addCoordinates(final String email, final String coordinate){
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADDCOOR,
