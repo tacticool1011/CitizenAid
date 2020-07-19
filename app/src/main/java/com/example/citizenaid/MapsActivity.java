@@ -465,14 +465,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(View v) {
                         //marker.getPostition()
-                        if(description1 == null || type1 == null){
-                            Toast.makeText(MapsActivity.this, "Details not available", Toast.LENGTH_SHORT).show();
-                        } else {
+//                        if(description1 == null || type1 == null){
+//                            Toast.makeText(MapsActivity.this, "Details not available", Toast.LENGTH_SHORT).show();
+//                        } else {
                             startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
                             finish();
                             return;
                         }
-                    }
+//                    }
                 });
 
 
