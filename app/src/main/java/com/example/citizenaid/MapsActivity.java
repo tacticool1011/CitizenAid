@@ -50,6 +50,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Marker selected;
     private boolean clicked = false;
+    public static String name1;
+    public static String desc1;
+    public static String type1;
     private static LatLng clickPos;
     //public static Institutions institute;
     public static boolean addedanything = false;
@@ -265,6 +268,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         inst = i;
                     }
                 }
+
+
+                if(inst != null){
+                    startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                    name1 = inst.getName();
+                    desc1 = inst.getDescription();
+                    type1 = inst.getType();
+                }
+                removelocation = findViewById(R.id.remove);
+                removelocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        marker.remove();
+                    }
+                });
 
                 return clicked;
             }
