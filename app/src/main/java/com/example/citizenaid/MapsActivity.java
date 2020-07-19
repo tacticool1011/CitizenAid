@@ -59,6 +59,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -118,6 +119,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String userr;
     DrawerLayout d1;
     private static String URL_ADDCOOR = LoginActivity.ngrokID+"/userCoordinates/addcoordinates.php";
+    private static String URL_GETCOOR = LoginActivity.ngrokID+"/userCoordinates/getcoordinates.php";
+
+    String resp;
+    ArrayList<String> coordinatess = new ArrayList<>();
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -128,8 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-
+        getCoordinates(); //method to get coordinates
         // Current Location Stuff
          supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                .findFragmentById(R.id.map);
@@ -465,6 +469,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return clickPos;
     }
 
+    private void getCoordinates(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETCOOR,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            System.out.println("CONNECTED");
+                            Log.e("anyText",response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONArray jsonArray = jsonObject.optJSONArray("getcoor");
+
+                            if (success.equals("1")) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.optJSONObject(i);
+                                    String temp = object.getString("coordinate").trim();
+                                    coordinatess.add(temp);
+                                    //temp = a single coordinate
+                                    //pls add to a ArrayList <String>
+                                    System.out.println("co " + temp);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            System.out.println(e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(DetailsActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                        System.out.println(error.toString());
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
 
 }
