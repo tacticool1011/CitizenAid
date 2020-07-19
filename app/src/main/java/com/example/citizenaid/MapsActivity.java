@@ -1,13 +1,18 @@
 package com.example.citizenaid;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,6 +33,7 @@ import com.example.citizenaid.LoginActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,6 +44,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
@@ -65,6 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
 
+    // Current Location Stuff
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
+
 
     //widgets
     private AutoCompleteTextView mSearchText;
@@ -82,20 +94,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
     DrawerLayout d1;
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        // Current Location Stuff
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+        // Check Permission
+        if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            //When permission granted
+            getCurrentLocation();
+        } else {
+            //When permission denied
+            //Request permission
+            ActivityCompat.requestPermissions(MapsActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+
         //checks if its a citizen of organization
-        if (citizen.getEmail().equals("notcitizen")){
+        if (citizen.getEmail().equals("notcitizen")) {
             userr = "institutions";
             System.out.println(institutions.getEmail());
-        } else{
+        } else {
             userr = "citizen";
             System.out.println(citizen.getEmail());
         }
@@ -108,21 +139,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mSearchText = findViewById(R.id.input_search);
         d1 = findViewById(R.id.d1);
 
-        final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
 
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                if (id == R.id.home){
+                if (id == R.id.home) {
 //                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), MapsActivity.class ));
-                }
-                else if (id == R.id.profile){
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                } else if (id == R.id.profile) {
 //                    Toast.makeText(HomeActivity.this, "Post", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class ));
-                }
-                else if (id == R.id.logout) {
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                } else if (id == R.id.logout) {
 //                    Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -133,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(clicked){
+                if (clicked) {
                     startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
                     finish();
                     return;
@@ -142,8 +171,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-
     }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Task<Location> task = client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(final Location location) {
+                //When success
+                if (location != null) {
+                    //Sync map
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            //Inintialize lat lng
+                            LatLng latLng = new LatLng(location.getLatitude()
+                                    ,location.getLongitude());
+                            //Create marker options
+                            MarkerOptions options = new MarkerOptions().position(latLng)
+                                    .title("Current Location");
+                            //Zoom map
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                            //Add marker on map
+                            googleMap.addMarker(options);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 44){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //When permission granted
+                getCurrentLocation();
+            }
+        }
+    }
+
     private void init(){
         Log.d(TAG, "init: initializing");
 
@@ -291,6 +368,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static LatLng getClickPos() {
         return clickPos;
     }
+
 
 
 }
