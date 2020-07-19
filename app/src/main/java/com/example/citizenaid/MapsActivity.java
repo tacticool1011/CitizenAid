@@ -399,10 +399,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        for(Institution i : soupKitchen.getLocations()){
-            LatLng institutePos = i.getPos();
-            mMap.addMarker(new MarkerOptions().position(institutePos).title("Soup Kitchen").icon(BitmapDescriptorFactory.fromBitmap(institution_icon)));
-        }
+//        for(Institution i : soupKitchen.getLocations()){
+//            LatLng institutePos = i.getPos();
+//            mMap.addMarker(new MarkerOptions().position(institutePos).title("Soup Kitchen").icon(BitmapDescriptorFactory.fromBitmap(institution_icon)));
+//        }
         removelocation = findViewById(R.id.remove);
         if(!(citizen.getEmail().equals("notcitizen"))){
             removelocation.setVisibility(View.GONE);
