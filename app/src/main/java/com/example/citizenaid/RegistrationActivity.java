@@ -49,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Button mLogin, mRegister;
     RadioButton mCitizen, mInstitution;
     EditText name, email, password, c_password;
-        private static String URL_REGIST = "http://16f8aaaf4bdf.ngrok.io/messagingApp/register.php";
+        private static String URL_REGIST = "http://16f8aaaf4bdf.ngrok.io/citizenAid/register.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,6 +128,12 @@ public class RegistrationActivity extends AppCompatActivity {
         final String name = this.name.getText().toString().trim();
         final String email = this.email.getText().toString().trim();
         final String password = this.password.getText().toString().trim();
+        final String isCitizen;
+        if (mCitizen.isChecked()){
+            isCitizen = "true";
+        } else {
+            isCitizen = "false";
+        }
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGIST,
@@ -164,6 +170,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 params.put ("name", name);
                 params.put("email", email);
                 params.put("password", password);
+                params.put("isCitizen", isCitizen);
                 return params;
             }
         };
