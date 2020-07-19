@@ -1,6 +1,9 @@
 package com.example.citizenaid;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +15,7 @@ import static com.example.citizenaid.MapsActivity.desc1;
 import static com.example.citizenaid.MapsActivity.type1;
 public class DetailsActivity extends AppCompatActivity {
     private TextView name, desc, type, image;
+    private Button back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +24,16 @@ public class DetailsActivity extends AppCompatActivity {
         desc = findViewById(R.id.institutionDetails);
         type = findViewById(R.id.institutionType);
         image = findViewById(R.id.textView2);
+        back = findViewById(R.id.detailsBackButton);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                finish();
+                return;
+            }
+        });
         name.setText(name1);
         desc.setText(desc1);
         type.setText(type1);
