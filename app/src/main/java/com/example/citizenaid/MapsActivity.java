@@ -154,6 +154,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else if (id == R.id.logout) {
 //                    Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                } else if (id == R.id.myLocation) {
+                    getCurrentLocation();
                 }
                 return true;
             }
@@ -173,7 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void getCurrentLocation() {
+    public void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
