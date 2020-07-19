@@ -31,9 +31,9 @@ public class ProfileActivity  extends AppCompatActivity {
         d1 = findViewById(R.id.d1);
 
 
-        button = findViewById(R.id.button);
+        button = findViewById(R.id.confirm);
 
-        name = (EditText) findViewById(R.id.institution);
+        name = (EditText) findViewById(R.id.institutionName);
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
 
@@ -41,9 +41,10 @@ public class ProfileActivity  extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.myLocation).setVisible(false);
 
+
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
 
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        /*nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
@@ -61,7 +62,7 @@ public class ProfileActivity  extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });*/
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
