@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.example.citizenaid.Users.Citizen;
 import com.example.citizenaid.Users.Institution;
 import com.example.citizenaid.Users.Institutions;
@@ -35,6 +36,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -54,6 +56,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.citizenaid.DetailsActivity.removed;
+import static com.example.citizenaid.LoginActivity.institutions;
+import static com.example.citizenaid.ProfileActivity.description1;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     private Button addlocation, removelocation, details;
@@ -172,16 +176,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if (clicked) {
-                    startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
-                    finish();
-                    return;
+                    createInstituion();
+                    startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+//                    startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
+//                    finish();
+//                    return;
                 }
             }
         });
 
 
     }
-
+    public void createInstituion(){
+        Institution created = new Institution(institutions , MapsActivity.getClickPos(), description1, name1, type1);
+        institutions.addLocations(created);
+        System.out.println(description1 + " " + name1 + " " + type1);
+        addedanything = true;
+    }
     public void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -317,6 +328,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         if(addedanything) {
             for (Institution i : institutions.getLocations()) {
+                System.out.println("i: " + i);
                 LatLng institutePos = i.getPos();
                 Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
             }
@@ -347,6 +359,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(final  Marker marker) {
                 Institution inst = null;
+
                 clicked = true;
                 if(autoclick){
                     marker.remove();
@@ -355,11 +368,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(Institution i : institutions.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
-
                     }
                 }
-
-
                 if(inst != null){
                     name1 = inst.getName();
                     desc1 = inst.getDescription();
@@ -370,6 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 details.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
                         finish();
                         return;
