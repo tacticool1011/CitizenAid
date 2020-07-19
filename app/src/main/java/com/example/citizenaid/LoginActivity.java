@@ -44,15 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mLogin = findViewById(R.id.login);
 
-        mCheat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-                finish();
-                return;
-            }
-        });
-
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
