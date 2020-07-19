@@ -117,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
     DrawerLayout d1;
-    private static String URL_ADDCOOR = "http://2fe49e011188.ngrok.io/userCoordinates/addcoordinates.php";
+    private static String URL_ADDCOOR = LoginActivity.ngrokID+"/userCoordinates/addcoordinates.php";
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -215,7 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onResponse(String response) {
                         try{
-//                            System.out.println("CONNECTED");
+                            System.out.println("CONNECTED");
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
 
@@ -241,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Map <String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("coordinate", coordinate);
-//                System.out.println("coordinate = " + coordinate);
+                System.out.println("email "+email);
                 return params;
             }
         };

@@ -38,9 +38,9 @@ import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
     private TextView name, desc, type, image;
     Button press;
-    private static String URL_GETPROFILE = "http://2fe49e011188.ngrok.io/userCoordinates/getemail.php";
+    private static String URL_GETEMAIL = LoginActivity.ngrokID+"/userCoordinates/getemail.php";
+    private static String URL_GETPROFILE = LoginActivity.ngrokID+"/citizenAid/getprofile.php";
     LatLng latLng = MapsActivity.getClickPos();
-    String coord = latLng.toString();
     String email;
 
     private Button back, removelocation;
@@ -57,6 +57,8 @@ public class DetailsActivity extends AppCompatActivity {
         back = findViewById(R.id.detailsBackButton);
         press = findViewById(R.id.pressbutton);
 
+        getEmail(MapsActivity.getClickPos().toString());
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,22 +68,19 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        name.setText(name1);
-        desc.setText(description1);
-        type.setText(type1);
 
-        press.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getEmail(MapsActivity.getClickPos().toString());
-            }
-        });
+//        press.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getProfile(email);
+//            }
+//        });
 
     }
 
     private void getEmail(final String coordinate){
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETPROFILE,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETEMAIL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -97,7 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
                                     JSONObject object = jsonArray.optJSONObject(i);
                                     String gotEmail  = object.getString("email").trim();
                                     email = gotEmail;
-                                    System.out.println(email);
+                                    getProfile(email);
                                 }
                             }
                         } catch (JSONException e) {
@@ -127,4 +126,57 @@ public class DetailsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+
+    private void getProfile(final String email){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETPROFILE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            System.out.println("CONNECTED");
+                            Log.e("anyText",response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+                            JSONArray jsonArray = jsonObject.optJSONArray("getprofile");
+
+                            if (success.equals("1")) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.optJSONObject(i);
+                                    String types  = object.getString("type");
+                                    String description = object.getString("description");
+                                    System.out.println(description);
+                                    desc.setText(description);
+                                    type.setText(types);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                            Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            System.out.println(e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(DetailsActivity.this, "Error" + error.toString(), Toast.LENGTH_SHORT).show();
+                        System.out.println(error.toString());
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
 }
