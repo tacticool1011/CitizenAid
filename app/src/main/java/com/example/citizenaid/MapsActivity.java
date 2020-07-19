@@ -117,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static Institutions institutions = LoginActivity.getInstitutions();
     String userr;
     DrawerLayout d1;
-    private static String URL_ADDCOOR = "http://2fe49e011188.ngrok.io/userCoordinates/addcoordinates.php";
+    private static String URL_ADDCOOR = LoginActivity.ngrokID+"/userCoordinates/addcoordinates.php";
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -151,10 +151,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //checks if its a citizen of organization
         if (citizen.getEmail().equals("notcitizen")) {
             userr = "institutions";
-            System.out.println(institutions.getEmail());
+//            System.out.println(institutions.getEmail());
         } else {
             userr = "citizen";
-            System.out.println(citizen.getEmail());
+//            System.out.println(citizen.getEmail());
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -205,24 +205,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Institution created = new Institution(institutions , MapsActivity.getClickPos(), description1, name1, type1);
         institutions.addLocations(created);
         addedanything = true;
-        addCoordinates();
+        addCoordinates(institutions.getEmail(), MapsActivity.getClickPos().toString());
     }
 
-    private void addCoordinates(){
-
-        final String email;
-        if  (institutions.getEmail().equals("notinstitutions")){
-             email = citizen.getEmail();
-        } else {
-            email = institutions.getEmail();
-        }
-        final String coordinate = MapsActivity.getClickPos().toString();
+    private void addCoordinates(final String email, final String coordinate){
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADDCOOR,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try{
+                            System.out.println("CONNECTED");
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
 
@@ -248,6 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Map <String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("coordinate", coordinate);
+                System.out.println("email "+email);
                 return params;
             }
         };

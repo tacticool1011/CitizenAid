@@ -29,10 +29,11 @@ import com.example.citizenaid.Users.Institutions;
 public class LoginActivity extends AppCompatActivity {
 
     Button mCheat, mRegister, mLogin;
+    public static String ngrokID = "http://847f56fa1b12.ngrok.io";
     public  static Citizen citizen;
     public static Institutions institutions;
     EditText mEmail, mPassword;
-    private static String URL_LOGIN = "http://2fe49e011188.ngrok.io/citizenAid/login.php";
+    private static String URL_LOGIN = ngrokID+"/citizenAid/login.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

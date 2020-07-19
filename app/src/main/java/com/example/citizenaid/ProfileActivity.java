@@ -43,7 +43,7 @@ public class ProfileActivity  extends AppCompatActivity {
     Citizen citizen = LoginActivity.getCitizen();
     Institutions institutions = LoginActivity.getInstitutions();
     String userr;
-    private static String URL_PROFILE = "http://2fe49e011188.ngrok.io/citizenAid/profile.php";
+    private static String URL_PROFILE = LoginActivity.ngrokID+"/citizenAid/profile.php";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
