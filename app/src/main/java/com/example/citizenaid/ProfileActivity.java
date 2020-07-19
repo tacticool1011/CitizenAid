@@ -106,11 +106,10 @@ public class ProfileActivity  extends AppCompatActivity {
                 name1 = name2.getText().toString();
                 type1 = type2.getText().toString();
                 description1 = description2.getText().toString();
-                System.out.println("name1: " + name1 + "type1: " + type1 + "descrp1: " + description1);
                 name.setVisibility(View.GONE);
                 type.setVisibility(View.GONE);
                 description.setVisibility(View.GONE);
-
+                Toast.makeText(ProfileActivity.this, "Created a profile", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
 
                 updateProfile(institutions.getEmail(), mType, mDescription);

@@ -23,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.citizenaid.Users.Citizen;
@@ -58,16 +59,17 @@ import java.util.List;
 import static com.example.citizenaid.DetailsActivity.removed;
 import static com.example.citizenaid.LoginActivity.institutions;
 import static com.example.citizenaid.ProfileActivity.description1;
-
+import static com.example.citizenaid.ProfileActivity.name1;
+import static com.example.citizenaid.ProfileActivity.type1;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     private Button addlocation, removelocation, details;
     private Institution institution;
     private GoogleMap mMap;
     private Marker selected;
     private boolean clicked = false;
-    public static String name1;
+
     public static String desc1;
-    public static String type1;
+
     private static LatLng clickPos;
     //public static Institutions institute;
     public static boolean addedanything = false;
@@ -177,10 +179,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 if (clicked) {
                     createInstituion();
+                    Toast.makeText(MapsActivity.this, "Added a location", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-//                    startActivity(new Intent(getApplicationContext(), InstitutionActivity.class));
-//                    finish();
-//                    return;
+
                 }
             }
         });
@@ -190,7 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void createInstituion(){
         Institution created = new Institution(institutions , MapsActivity.getClickPos(), description1, name1, type1);
         institutions.addLocations(created);
-        System.out.println(description1 + " " + name1 + " " + type1);
         addedanything = true;
     }
     public void getCurrentLocation() {
@@ -328,7 +328,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         if(addedanything) {
             for (Institution i : institutions.getLocations()) {
-                System.out.println("i: " + i);
                 LatLng institutePos = i.getPos();
                 Marker m = mMap.addMarker(new MarkerOptions().position(institutePos).title("Your Institute"));
             }
@@ -359,7 +358,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(final  Marker marker) {
                 Institution inst = null;
-
+                Toast.makeText(MapsActivity.this, "Selected a marker", Toast.LENGTH_SHORT).show();
                 clicked = true;
                 if(autoclick){
                     marker.remove();
@@ -372,7 +371,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 if(inst != null){
                     name1 = inst.getName();
-                    desc1 = inst.getDescription();
+                    description1 = inst.getDescription();
                     type1 = inst.getType();
                     toDelete.add(marker);
                 }
@@ -393,13 +392,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         marker.remove();
                         for (Institution i : institutions.getLocations()) {
                             if(marker.getPosition().equals(i.getPos())){
+                                Toast.makeText(MapsActivity.this, "Removed a location", Toast.LENGTH_SHORT).show();
                                 institutions.getLocations().remove(i);
                             }
                         }
-
                     }
                 });
-
                 return clicked;
             }
         });
