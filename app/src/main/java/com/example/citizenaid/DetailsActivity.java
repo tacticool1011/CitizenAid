@@ -36,8 +36,7 @@ import static com.example.citizenaid.MapsActivity.toDelete;
 import static com.example.citizenaid.MapsActivity.marker1;
 import static com.example.citizenaid.MapsActivity.notNull;
 public class DetailsActivity extends AppCompatActivity {
-    private TextView name, desc, type, image;
-    Button press;
+    private TextView nam, desc, type, image;
     private static String URL_GETEMAIL = LoginActivity.ngrokID+"/userCoordinates/getemail.php";
     private static String URL_GETPROFILE = LoginActivity.ngrokID+"/citizenAid/getprofile.php";
     LatLng latLng = MapsActivity.getClickPos();
@@ -50,12 +49,11 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        name = findViewById(R.id.institutionName);
+        nam = findViewById(R.id.institutionName);
         desc = findViewById(R.id.institutionDetails);
         type = findViewById(R.id.institutionType);
         image = findViewById(R.id.textView2);
         back = findViewById(R.id.detailsBackButton);
-        press = findViewById(R.id.pressbutton);
 
         getEmail(MapsActivity.getClickPos().toString());
 
@@ -146,9 +144,12 @@ public class DetailsActivity extends AppCompatActivity {
                                     JSONObject object = jsonArray.optJSONObject(i);
                                     String types  = object.getString("type");
                                     String description = object.getString("description");
-                                    System.out.println(description);
+                                    String name = object.getString("name");
+                                    System.out.println(name);
                                     desc.setText(description);
                                     type.setText(types);
+                                    nam.setText(name);
+
                                 }
                             }
                         } catch (JSONException e) {
