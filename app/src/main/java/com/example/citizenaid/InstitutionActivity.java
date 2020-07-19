@@ -32,7 +32,6 @@ public class InstitutionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createInstituion();
-
                 startActivity(new Intent(getApplicationContext(), MapsActivity.class));
                 finish();
                 return;
@@ -40,7 +39,6 @@ public class InstitutionActivity extends AppCompatActivity {
         });
     }
     public void createInstituion(){
-
         Institution created = new Institution(institute , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString(), type.getText().toString());
         institute.addLocations(created);
         addedanything = true;
