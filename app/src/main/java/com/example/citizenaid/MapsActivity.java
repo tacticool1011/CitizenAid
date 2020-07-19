@@ -475,6 +475,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(final  Marker marker) {
                 Institution inst = null;
                 Toast.makeText(MapsActivity.this, "Selected a marker", Toast.LENGTH_SHORT).show();
+                clickPos = marker.getPosition();
                 clicked = true;
                 if(autoclick){
                     marker.remove();
