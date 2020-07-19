@@ -44,6 +44,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.citizenaid.DetailsActivity.removed;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     private Button addlocation, removelocation;
     private Institution institution;
@@ -58,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static boolean addedanything = false;
     private static final String TAG = "MapActivity";
     private boolean autoclick = false;
+    public static boolean notNull = false;
+    public static List<Marker> toDelete = new ArrayList<>();
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -69,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //widgets
     private AutoCompleteTextView mSearchText;
     private ImageView mGps;
-
+    public static Marker marker1;
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -90,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
 
         //checks if its a citizen of organization
         if (citizen.getEmail().equals("notcitizen")){
@@ -200,6 +205,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     address.getAddressLine(0));
         }
     }
+    public static void removeMarkers(){
+            for(Marker m : toDelete){
+                System.out.println(m);
+                m.remove();
+            }
+    }
     private void moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -223,6 +234,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
         init();
+        removeMarkers();
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -255,8 +267,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             private boolean doit = false;
+
             @Override
-            public boolean onMarkerClick(final Marker marker) {
+            public boolean onMarkerClick(final  Marker marker) {
                 Institution inst = null;
                 clicked = true;
                 if(autoclick){
@@ -266,23 +279,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(Institution i : institutions.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
+                        marker1 = marker;
                     }
                 }
 
 
                 if(inst != null){
-                    startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                    System.out.println("inside: " + marker);
                     name1 = inst.getName();
                     desc1 = inst.getDescription();
                     type1 = inst.getType();
+                    startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                    finish();
+
                 }
-                removelocation = findViewById(R.id.remove);
-                removelocation.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        marker.remove();
-                    }
-                });
+
+//                removelocation = findViewById(R.id.remove);
+//                removelocation.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        marker.remove();
+//                    }
+//                });
 
                 return clicked;
             }
