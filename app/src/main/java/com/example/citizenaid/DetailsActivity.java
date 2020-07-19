@@ -54,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
         type = findViewById(R.id.institutionType);
         image = findViewById(R.id.textView2);
         back = findViewById(R.id.detailsBackButton);
-
+        System.out.println(MapsActivity.getClickPos());
         getEmail(MapsActivity.getClickPos().toString());
 
         back.setOnClickListener(new View.OnClickListener() {
