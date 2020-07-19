@@ -16,7 +16,6 @@ import static com.example.citizenaid.MapsActivity.toDelete;
 import static com.example.citizenaid.MapsActivity.type1;
 import static com.example.citizenaid.MapsActivity.marker1;
 import static com.example.citizenaid.MapsActivity.notNull;
-import static com.example.citizenaid.MapsActivity.removeMarkers;
 public class DetailsActivity extends AppCompatActivity {
     private TextView name, desc, type, image;
     private Button back, removelocation;
@@ -30,7 +29,6 @@ public class DetailsActivity extends AppCompatActivity {
         type = findViewById(R.id.institutionType);
         image = findViewById(R.id.textView2);
         back = findViewById(R.id.detailsBackButton);
-        removelocation = findViewById(R.id.removelocation);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,16 +39,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        removelocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toDelete.add(marker1);
-                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
-                removeMarkers();
-                finish();
-                return;
-            }
-        });
         name.setText(name1);
         desc.setText(desc1);
         type.setText(type1);

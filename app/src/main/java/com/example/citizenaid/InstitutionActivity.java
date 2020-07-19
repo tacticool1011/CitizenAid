@@ -42,6 +42,7 @@ public class InstitutionActivity extends AppCompatActivity {
     public void createInstituion(){
         Institution created = new Institution(institutions , MapsActivity.getClickPos(), description.getText().toString(), name.getText().toString(), type.getText().toString());
         institutions.addLocations(created);
+
         addedanything = true;
     }
 }

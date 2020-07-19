@@ -47,7 +47,7 @@ import java.util.List;
 import static com.example.citizenaid.DetailsActivity.removed;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
-    private Button addlocation, removelocation;
+    private Button addlocation, removelocation, details;
     private Institution institution;
     private GoogleMap mMap;
     private Marker selected;
@@ -149,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
     private void init(){
         Log.d(TAG, "init: initializing");
 
@@ -205,12 +206,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     address.getAddressLine(0));
         }
     }
-    public static void removeMarkers(){
-            for(Marker m : toDelete){
-                System.out.println(m);
-                m.remove();
-            }
-    }
     private void moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -229,12 +224,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
         init();
-        removeMarkers();
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -279,28 +274,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for(Institution i : institutions.getLocations()){
                     if(i.getPos().equals(MapsActivity.getClickPos())){
                         inst = i;
-                        marker1 = marker;
+
                     }
                 }
 
 
                 if(inst != null){
-                    System.out.println("inside: " + marker);
                     name1 = inst.getName();
                     desc1 = inst.getDescription();
                     type1 = inst.getType();
-                    startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
-                    finish();
-
+                    toDelete.add(marker);
                 }
+                details = findViewById(R.id.details);
+                details.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MapsActivity.this, DetailsActivity.class));
+                        finish();
+                        return;
+                    }
+                });
+                removelocation = findViewById(R.id.remove);
+                removelocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        marker.remove();
+                        for (Institution i : institutions.getLocations()) {
+                            if(marker.getPosition().equals(i.getPos())){
+                                institutions.getLocations().remove(i);
+                            }
+                        }
 
-//                removelocation = findViewById(R.id.remove);
-//                removelocation.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        marker.remove();
-//                    }
-//                });
+                    }
+                });
 
                 return clicked;
             }
