@@ -19,12 +19,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.citizenaid.Users.Citizen;
 import com.example.citizenaid.Users.Institution;
 import com.example.citizenaid.Users.Institutions;
+
+import com.example.citizenaid.LoginActivity;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.places.Places;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -70,6 +75,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     public static  Institutions institute = new Institutions("bob", "farm", "bob@gmail.com", 5, 12345);
     private boolean selectedAnything = false, selectedMarker = false;
+    private Citizen citizen = LoginActivity.getCitizen();
+    private Institutions institutions = LoginActivity.getInstitutions();
+    String userr;
     DrawerLayout d1;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -79,6 +87,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        if (citizen.getEmail().equals("notcitizen")){
+            userr = "institutions";
+            System.out.println(institutions.getEmail());
+        } else{
+            userr = "citizen";
+            System.out.println(citizen.getEmail());
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

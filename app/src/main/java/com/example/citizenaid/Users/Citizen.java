@@ -1,14 +1,18 @@
 package com.example.citizenaid.Users;
 
-public class Citizen implements User{
-    private String firstName, lastName, email;
+public class Citizen{
+    private String name, email;
     private int zipCode;
 
-    public Citizen(String firstName, String lastName, String email, int zipCode){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Citizen(String name, String email, int zipCode){
+        this.name = name;
         this.email = email;
         this.zipCode = zipCode;
+    }
+
+    public Citizen (String name, String email){
+        this.name = name;
+        this.email = email;
     }
 
     public int getZipCode() {
@@ -19,11 +23,7 @@ public class Citizen implements User{
         return email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 }
