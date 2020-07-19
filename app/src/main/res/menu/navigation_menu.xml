@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:title="Home"
->
-    </item>
+        android:title="Home"></item>
+
+    <item
+        android:id="@+id/myLocation"
+        android:title="My Location" />
 
     <item
         android:id="@+id/profile"
-        android:title="Create Profile"
->
-    </item>
+        android:title="My Profile"></item>
 
 
 
@@ -19,7 +20,6 @@
         android:title="Logout"
 >
     </item>
-
 
 
 </menu>

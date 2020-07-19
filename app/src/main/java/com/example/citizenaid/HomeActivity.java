@@ -20,6 +20,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Construct a GeoDataClient.
+
         d1 = findViewById(R.id.d1);
 
         final NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
