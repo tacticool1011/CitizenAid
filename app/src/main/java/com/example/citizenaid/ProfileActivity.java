@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,8 @@ public class ProfileActivity  extends AppCompatActivity {
 
     DrawerLayout d1;
     Button button;
+    TextView name2, type2, description2;
+    public static String name1 = "", type1 = "", description1 = "";
     EditText name, type, description;
     String mName, mType, mDescription;
     Citizen citizen = LoginActivity.getCitizen();
@@ -51,7 +54,9 @@ public class ProfileActivity  extends AppCompatActivity {
 
 
         button = findViewById(R.id.confirm);
-
+        name2 = findViewById(R.id.institutionName2);
+        type2 = findViewById(R.id.institutionType2);
+        description2 = findViewById(R.id.description2);
         name = (EditText) findViewById(R.id.institutionName);
         type = (EditText) findViewById(R.id.institutionType);
         description = (EditText) findViewById(R.id.description);
@@ -94,6 +99,19 @@ public class ProfileActivity  extends AppCompatActivity {
                 mType = type.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
 
+
+                name2.setText(name.getText().toString());
+                type2.setText(type.getText().toString());
+                description2.setText(description.getText().toString());
+                name1 = name2.getText().toString();
+                type1 = type2.getText().toString();
+                description1 = description2.getText().toString();
+                System.out.println("name1: " + name1 + "type1: " + type1 + "descrp1: " + description1);
+                name.setVisibility(View.GONE);
+                type.setVisibility(View.GONE);
+                description.setVisibility(View.GONE);
+
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
 
                 updateProfile(institutions.getEmail(), mType, mDescription);
 //                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
